@@ -18,7 +18,7 @@ def get_total_order_amount(order: List[PurchaseItem]):
     """
 
     raise NotImplementedError(
-        "REMOVE this line and RETURN the total amount for the order"
+        "REMOVE the error and RETURN the total amount for the order"
     )
 
 
@@ -35,7 +35,7 @@ def get_service_charge(order: List[PurchaseItem]):
     """
 
     raise NotImplementedError(
-        "REMOVE this line and RETURN service charge amount for the order"
+        "REMOVE the error and RETURN service charge amount for the order"
     )
 
 
@@ -125,7 +125,7 @@ def print_order(order):
         on=colors.background["yellow"],
     )
     utils.cprint(
-        f"Final Amount: {str(total_amount + service_charge) if type(total_amount) is int and type(service_charge) is int else 'ERROR'}",
+        f"Final Amount: {str(total_amount + service_charge) if isinstance(total_amount, (int, float)) and isinstance(service_charge, (int, float)) else 'ERROR'}",
         color=colors.foreground["green"],
         on=colors.background["yellow"],
     )
