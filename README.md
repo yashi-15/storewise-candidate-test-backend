@@ -40,4 +40,4 @@ There are multiple ways that you can submit the challenge.
 
 - 40 points for the correct `Order Amount`
 - 40 points for the correct `Service Charge`
-
+- 20 points for leaving the code in a better position than you found it
