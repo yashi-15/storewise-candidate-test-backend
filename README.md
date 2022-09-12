@@ -15,6 +15,20 @@ We need to ensure that the bill shows the correct amounts for `Order Amount`, `S
 
 That's all folks. 
 
+*Error*
+
+
+https://user-images.githubusercontent.com/19727424/189662227-114abaa5-f268-4c2d-804e-c9ecb2244a3f.mp4
+
+
+
+
+*Success*
+
+
+https://user-images.githubusercontent.com/19727424/189662251-d0a754ef-a761-4e75-ac23-26739e85556a.mp4
+
+
 ### Submitting your challenge
 
 There are multiple ways that you can submit the challenge.
@@ -22,11 +36,8 @@ There are multiple ways that you can submit the challenge.
 2. send us a zipped version of the directory
 3. Fork the repo and send us a link after you have made your changes
 
-
-
 ### How we score
 
 - 40 points for the correct `Order Amount`
 - 40 points for the correct `Service Charge`
-- 20 points for your implementation of the `Final Amount`
 
