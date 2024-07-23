@@ -1,8 +1,9 @@
 import traceback
 from doctest import UnexpectedException
 from typing import List
-
-from bullet import Bullet, colors, utils
+import inquirer 
+#I have used inquirer library instead of "bullet" because I was not able to use bullet in Windows, inquirer has the same functionality as bullet. RUN BELOW COMMAND BEFORE RUNNING THE CODE:
+# pip install inquirer
 
 
 class PurchaseItem(object):
@@ -17,9 +18,8 @@ def get_total_order_amount(order: List[PurchaseItem]):
     The total cost of all the items ordered
     """
 
-    raise NotImplementedError(
-        "REMOVE the error and RETURN the total amount for the order"
-    )
+    return sum(item.price for item in order)
+    
 
 
 def get_service_charge(order: List[PurchaseItem]):
@@ -34,9 +34,11 @@ def get_service_charge(order: List[PurchaseItem]):
         Order Amount = 3000, Service Charge = 600
     """
 
-    raise NotImplementedError(
-        "REMOVE the error and RETURN service charge amount for the order"
-    )
+    total_amount = get_total_order_amount(order)
+    if total_amount < 100:
+        return 0
+    service_charge = 0.01 * (total_amount // 100) * total_amount
+    return min(service_charge, 0.20 * total_amount)
 
 
 class Option(object):
@@ -104,78 +106,40 @@ def print_order(order):
             traceback.print_exc()
             service_charge = "ERROR"
 
-    utils.cprint(
-        "Final Order", color=colors.foreground["green"], on=colors.background["yellow"]
-    )
+    print("Final Order")
     for i, item in enumerate(order):
-        utils.cprint(
-            f"{i+1}. {item.name}",
-            color=colors.foreground["yellow"],
-            on=colors.background["green"],
-        )
+        print(f"{i+1}. {item.name}")
 
-    utils.cprint(
-        f"Order Amount: {str(total_amount)}",
-        color=colors.foreground["green"],
-        on=colors.background["yellow"],
-    )
-    utils.cprint(
-        f"Service Charge: {str(service_charge)}",
-        color=colors.foreground["green"],
-        on=colors.background["yellow"],
-    )
-    utils.cprint(
-        f"Final Amount: {str(total_amount + service_charge) if isinstance(total_amount, (int, float)) and isinstance(service_charge, (int, float)) else 'ERROR'}",
-        color=colors.foreground["green"],
-        on=colors.background["yellow"],
-    )
+    print(f"Order Amount: {str(total_amount)}")
+    print(f"Service Charge: {str(service_charge)}")
+    print(f"Final Amount: {str(total_amount + service_charge) if isinstance(total_amount, (int, float)) and isinstance(service_charge, (int, float)) else 'ERROR'}")
 
 
 print()
-utils.cprint(
-    "Welcome to McDonalds on your shell :)",
-    color=colors.foreground["blue"],
-    on=colors.background["white"],
-)
-utils.cprint(
-    "Here you can place your order        ",
-    color=colors.foreground["blue"],
-    on=colors.background["white"],
-)
-utils.cprint(
-    "And then we will show you your bill  ",
-    color=colors.foreground["blue"],
-    on=colors.background["white"],
-)
+print("Welcome to McDonalds on your shell :)")
+print("Here you can place your order")
+print("And then we will show you your bill")
 print()
 order = []
 while True:
     options = list(map(lambda x: str(x), MCDONALDS_FOOD_OPTIONS))
-    bullet = Bullet(prompt="Add an item", choices=options, bullet="=> ")
-    result = bullet.launch()
-    utils.clearConsoleUp(7)
+    question = [inquirer.List('option', message="Add an item", choices=options)]
+    result = inquirer.prompt(question)['option']
     option = get_option_from_result(result, MCDONALDS_FOOD_OPTIONS)
     if result == str(MCDONALDS_FOOD_OPTIONS[-1]):
         break
     order.append(PurchaseItem(option))
-    utils.cprint(
-        f"{result} is added to your order", on=colors.background["green"], end="\n"
-    )
+    print(f"{result} is added to your order")
 
 while True:
     options = list(map(lambda x: str(x), MCDONALDS_BEVERAGES_OPTIONS))
-    bullet = Bullet(prompt="Add a beverage", choices=options, bullet="=> ")
-    result = bullet.launch()
-    utils.clearConsoleUp(7)
+    question = [inquirer.List('option', message="Add a beverage", choices=options)]
+    result = inquirer.prompt(question)['option']
     option = get_option_from_result(result, MCDONALDS_BEVERAGES_OPTIONS)
     if result == str(MCDONALDS_BEVERAGES_OPTIONS[-1]):
         break
     order.append(PurchaseItem(option))
-    utils.cprint(
-        f"{result} is added to your order", on=colors.background["green"], end="\n"
-    )
+    print(f"{result} is added to your order")
 
-utils.clearConsoleUp(1)
 print()
-
 print_order(order)
